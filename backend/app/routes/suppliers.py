@@ -46,7 +46,7 @@ def create_supplier():
 @suppliers_bp.route("/<int:supplier_id>", methods=["PUT"])
 @jwt_required()
 def update_supplier(supplier_id):
-    supplier = Supplier.query.get_or_404(supplier_id)
+    supplier = db.get_or_404(Supplier, supplier_id)
     data = request.get_json() or {}
 
     if "name" in data and data["name"].strip():
@@ -71,7 +71,7 @@ def update_supplier(supplier_id):
 @jwt_required()
 @admin_required()
 def delete_supplier(supplier_id):
-    supplier = Supplier.query.get_or_404(supplier_id)
+    supplier = db.get_or_404(Supplier, supplier_id)
     db.session.delete(supplier)
     db.session.commit()
     return jsonify({

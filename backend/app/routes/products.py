@@ -162,13 +162,13 @@ def create_product():
 @products_bp.route("/<int:product_id>", methods=["GET"])
 @jwt_required()
 def get_product(product_id):
-    product = Product.query.get_or_404(product_id)
+    product = db.get_or_404(Product, product_id)
     return jsonify({"success": True, "data": product.to_dict()}), 200
 
 @products_bp.route("/<int:product_id>", methods=["PUT"])
 @jwt_required()
 def update_product(product_id):
-    product = Product.query.get_or_404(product_id)
+    product = db.get_or_404(Product, product_id)
     data = request.get_json() or {}
 
     if "name" in data and data["name"].strip():
@@ -199,7 +199,7 @@ def update_product(product_id):
 @jwt_required()
 @admin_required()
 def delete_product(product_id):
-    product = Product.query.get_or_404(product_id)
+    product = db.get_or_404(Product, product_id)
     db.session.delete(product)
     db.session.commit()
     return jsonify({

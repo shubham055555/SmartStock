@@ -44,7 +44,7 @@ def create_category():
 @categories_bp.route("/<int:category_id>", methods=["PUT"])
 @jwt_required()
 def update_category(category_id):
-    category = Category.query.get_or_404(category_id)
+    category = db.get_or_404(Category, category_id)
     data = request.get_json() or {}
     name = data.get("name", "").strip()
     
@@ -68,7 +68,7 @@ def update_category(category_id):
 @jwt_required()
 @admin_required()
 def delete_category(category_id):
-    category = Category.query.get_or_404(category_id)
+    category = db.get_or_404(Category, category_id)
     db.session.delete(category)
     db.session.commit()
     return jsonify({
