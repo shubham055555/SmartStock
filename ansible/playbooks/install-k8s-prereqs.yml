@@ -1,0 +1,45 @@
+---
+# ==============================================================================
+# Playbook 3: Kubernetes Prerequisites (Sysctl, Bridge, Swap)
+# ==============================================================================
+- name: Configure Linux Kernel & Networking for Kubernetes
+  hosts: smartstock_nodes
+  become: yes
+  tasks:
+    - name: Disable swap immediately (Required for kubelet)
+      command: swapoff -a
+      when: ansible_swaptotal_mb > 0
+
+    - name: Disable swap permanently in /etc/fstab
+      replace:
+        path: /etc/fstab
+        regexp: '^(\s*[^#\s]+\s+[^#\s]+\s+swap\s+.*)$'
+        replace: '# \1'
+
+    - name: Load required Linux kernel modules for container networking
+      modprobe:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - overlay
+        - br_netfilter
+
+    - name: Configure sysctl network bridge parameters for Kubernetes
+      sysctl:
+        name: "{{ item.key }}"
+        value: "{{ item.value }}"
+        state: present
+        reload: yes
+      loop:
+        - { key: 'net.bridge.bridge-nf-call-iptables', value: '1' }
+        - { key: 'net.bridge.bridge-nf-call-ip6tables', value: '1' }
+        - { key: 'net.ipv4.ip_forward', value: '1' }
+
+    - name: Install Kubernetes CLI tools (kubectl, kubeadm, kubelet)
+      apt:
+        name:
+          - kubectl
+          - kubelet
+          - kubeadm
+        state: present
+      when: ansible_os_family == "Debian"

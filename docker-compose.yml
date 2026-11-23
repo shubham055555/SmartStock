@@ -1,0 +1,133 @@
+networks:
+  smartstock-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+
+services:
+  # ==========================================
+  # Relational Database: PostgreSQL 16
+  # ==========================================
+  postgres:
+    image: postgres:16-alpine
+    container_name: smartstock-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-smartstock_db}
+      POSTGRES_USER: ${DB_USER:-smartstock_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-smartstock_password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - smartstock-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-smartstock_user} -d ${DB_NAME:-smartstock_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # ==========================================
+  # Backend API: Python Flask + Gunicorn
+  # ==========================================
+  backend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.backend
+    container_name: smartstock-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      FLASK_ENV: production
+      DATABASE_URL: postgresql://${DB_USER:-smartstock_user}:${DB_PASSWORD:-smartstock_password}@postgres:5432/${DB_NAME:-smartstock_db}
+      SECRET_KEY: ${SECRET_KEY:-prod-secret-key-capstone-ensp461}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-prod-jwt-secret-key-ensp461}
+      JWT_ACCESS_TOKEN_EXPIRES_MINUTES: 120
+      CORS_ORIGINS: "*"
+      PROMETHEUS_METRICS_ENABLED: "true"
+      AI_LOG_PROVIDER: deterministic
+    ports:
+      - "5000:5000"
+    networks:
+      - smartstock-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:5000/healthz || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+  # ==========================================
+  # Frontend Application: React + Vite + Nginx
+  # ==========================================
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.frontend
+    container_name: smartstock-frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "3000:80"
+    networks:
+      - smartstock-network
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:80/ || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  # ==========================================
+  # Observability: Prometheus
+  # ==========================================
+  prometheus:
+    image: prom/prometheus:v2.51.0
+    container_name: smartstock-prometheus
+    restart: unless-stopped
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - smartstock-network
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+
+  # ==========================================
+  # Visualization: Grafana
+  # ==========================================
+  grafana:
+    image: grafana/grafana:10.4.0
+    container_name: smartstock-grafana
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    ports:
+      - "3001:3000"
+    networks:
+      - smartstock-network
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false

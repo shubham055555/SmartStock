@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: smartstock
+  labels:
+    name: smartstock
+    environment: production
+    app.kubernetes.io/part-of: smartstock-platform

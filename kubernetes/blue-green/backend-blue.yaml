@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smartstock-backend-blue
+  namespace: smartstock
+  labels:
+    app: smartstock-backend
+    version: blue
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: smartstock-backend
+      version: blue
+  template:
+    metadata:
+      labels:
+        app: smartstock-backend
+        version: blue
+    spec:
+      containers:
+        - name: backend
+          image: smartstock/backend:v1.0.0
+          ports:
+            - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: smartstock-config
+            - secretRef:
+                name: smartstock-secrets
+          env:
+            - name: APP_COLOR_VERSION
+              value: "blue-v1.0.0"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi

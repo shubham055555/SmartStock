@@ -1,0 +1,13 @@
+# ==========================================
+# Sample Variables for Terraform Deployment
+# Copy to terraform.tfvars and fill values
+# ==========================================
+
+aws_region           = "us-east-1"
+environment          = "production"
+vpc_cidr             = "10.0.0.0/16"
+availability_zones   = ["us-east-1a", "us-east-1b"]
+cluster_name         = "smartstock-eks-cluster"
+node_instance_types  = ["t3.medium"]
+db_instance_class    = "db.t4g.micro"
+db_allocated_storage = 20

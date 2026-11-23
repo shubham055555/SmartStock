@@ -1,0 +1,56 @@
+---
+# ==============================================================================
+# Playbook 4: SmartStock Application Stack Automated Deployment
+# ==============================================================================
+- name: Deploy SmartStock Application Stack
+  hosts: smartstock_controllers
+  become: yes
+  tasks:
+    - name: Synchronize SmartStock repository code to application root
+      copy:
+        src: "../../"
+        dest: "{{ app_dir }}"
+        owner: "{{ app_user }}"
+        group: "{{ app_user }}"
+        mode: '0755'
+      ignore_errors: yes
+
+    - name: Ensure production .env configuration file exists
+      template:
+        src: "{{ app_dir }}/.env.example"
+        dest: "{{ app_dir }}/.env"
+        owner: "{{ app_user }}"
+        group: "{{ app_user }}"
+        mode: '0600'
+        force: no
+
+    - name: Build and orchestrate SmartStock multi-container stack via Docker Compose
+      command: docker compose up -d --build
+      args:
+        chdir: "{{ app_dir }}"
+
+    - name: Await PostgreSQL container readiness probe
+      command: docker compose exec -T postgres pg_isready -U smartstock_user -d smartstock_db
+      args:
+        chdir: "{{ app_dir }}"
+      register: db_check
+      until: db_check.rc == 0
+      retries: 10
+      delay: 5
+
+    - name: Run database migrations and realistic catalog seed script
+      command: docker compose exec -T backend python seed.py
+      args:
+        chdir: "{{ app_dir }}"
+      register: seed_out
+
+    - name: Verify Backend Liveness probe (/healthz)
+      uri:
+        url: http://localhost:5000/healthz
+        status_code: 200
+        return_content: yes
+      register: health_check
+
+    - name: Report deployment success
+      debug:
+        msg: "✅ SmartStock deployed! Service status: {{ health_check.json.status }}. Ready for evaluation."

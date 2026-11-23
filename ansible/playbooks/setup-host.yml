@@ -1,0 +1,67 @@
+---
+# ==============================================================================
+# Playbook 1: System Baseline Hardening & Host Configuration
+# ==============================================================================
+- name: SmartStock Host Baseline Provisioning & Hardening
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update apt package repository cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+      when: ansible_os_family == "Debian"
+
+    - name: Install foundational Linux administration packages
+      apt:
+        name:
+          - curl
+          - wget
+          - git
+          - ufw
+          - htop
+          - jq
+          - ca-certificates
+          - gnupg
+          - lsb-release
+          - python3-pip
+          - python3-venv
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Ensure dedicated smartstock operational service group exists
+      group:
+        name: "{{ app_user }}"
+        state: present
+
+    - name: Ensure unprivileged smartstock service user exists
+      user:
+        name: "{{ app_user }}"
+        group: "{{ app_user }}"
+        shell: /bin/bash
+        home: "/home/{{ app_user }}"
+        create_home: yes
+        state: present
+
+    - name: Ensure application directory exists with proper permissions
+      file:
+        path: "{{ app_dir }}"
+        state: directory
+        owner: "{{ app_user }}"
+        group: "{{ app_user }}"
+        mode: '0755'
+
+    - name: Configure UFW firewall rules for SmartStock ports
+      ufw:
+        rule: allow
+        port: "{{ item }}"
+        proto: tcp
+      loop:
+        - "22"    # SSH
+        - "80"    # HTTP Frontend / Ingress
+        - "443"   # HTTPS
+        - "3000"  # Frontend Direct
+        - "5000"  # Backend REST API
+        - "5432"  # PostgreSQL
+        - "9090"  # Prometheus Scraper
+        - "3001"  # Grafana Dashboard

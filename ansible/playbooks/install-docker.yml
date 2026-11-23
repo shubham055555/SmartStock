@@ -1,0 +1,46 @@
+---
+# ==============================================================================
+# Playbook 2: Docker Engine & Containerd Idempotent Installation
+# ==============================================================================
+- name: Install & Configure Docker Engine and Docker Compose v2
+  hosts: all
+  become: yes
+  tasks:
+    - name: Add Docker official GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Add Docker APT repository
+      apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Install Docker CE, CLI, containerd, and Compose plugin
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        state: latest
+        update_cache: yes
+      when: ansible_os_family == "Debian"
+
+    - name: Ensure Docker service is enabled and active
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Add operator and application users to docker group
+      user:
+        name: "{{ item }}"
+        groups: docker
+        append: yes
+      loop:
+        - "{{ ansible_user | default('devops') }}"
+        - "{{ app_user }}"
