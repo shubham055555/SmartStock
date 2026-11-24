@@ -35,7 +35,7 @@ export const Sidebar: React.FC = () => {
         </div>
         <div>
           <h1 className="font-extrabold text-base text-white tracking-tight">SmartStock</h1>
-          <p className="text-[10px] text-brand-400 font-mono tracking-wider uppercase font-semibold">DevOps & Lab Capstone</p>
+          <p className="text-[10px] text-brand-400 font-mono tracking-wider uppercase font-semibold">DevOps Automation</p>
         </div>
       </div>
 
@@ -79,8 +79,8 @@ export const Sidebar: React.FC = () => {
             <span className="text-brand-400 font-bold">{user?.role}</span>
           </div>
           <div className="flex justify-between items-center text-slate-300 font-mono mt-1">
-            <span>Course:</span>
-            <span>ENSP461</span>
+            <span>Tier:</span>
+            <span>Production</span>
           </div>
         </div>
       </div>

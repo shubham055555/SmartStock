@@ -70,7 +70,7 @@ export const Login: React.FC = () => {
             </div>
             <div>
               <span className="text-xl font-black tracking-tight">SmartStock</span>
-              <p className="text-xs text-brand-400 font-mono font-medium">B.Tech CSE Capstone (ENSP461)</p>
+              <p className="text-xs text-brand-400 font-mono font-medium">Enterprise Edition v1.0</p>
             </div>
           </div>
 
@@ -104,8 +104,8 @@ export const Login: React.FC = () => {
         </div>
 
         <div className="mt-8 pt-6 border-t border-slate-800 text-xs text-slate-500 flex justify-between items-center">
-          <span>Evaluated out of 100 Marks</span>
-          <span>Semester VII Lab Capstone</span>
+          <span>High-Availability Cloud Ledger</span>
+          <span>Zero-Downtime Architecture</span>
         </div>
       </div>
 
@@ -121,7 +121,7 @@ export const Login: React.FC = () => {
           <div className="mb-6 p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80">
             <p className="text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-2 flex items-center gap-1.5">
               <KeyRound className="w-3.5 h-3.5 text-brand-600" />
-              1-Click Academic Evaluation Credentials
+              1-Click Quick Demo Sign In
             </p>
             <div className="grid grid-cols-2 gap-2">
               <button

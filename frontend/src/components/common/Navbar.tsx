@@ -17,10 +17,10 @@ export const Navbar: React.FC<NavbarProps> = ({ title = 'Overview' }) => {
       </div>
 
       <div className="flex items-center gap-4">
-        {/* Course Lab Badge */}
+        {/* Production Release Badge */}
         <div className="hidden md:flex items-center gap-1.5 px-3 py-1 bg-slate-100 rounded-full border border-slate-200 text-xs font-medium text-slate-600">
           <Sparkles className="w-3.5 h-3.5 text-brand-600" />
-          <span>Capstone Project ENSP461</span>
+          <span>Production Release v1.0</span>
         </div>
 
         {/* User Info & Controls */}

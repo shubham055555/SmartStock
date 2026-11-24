@@ -44,7 +44,7 @@ def api_info():
     return jsonify({
         "name": "SmartStock — Smart Inventory Management & DevOps Automation Platform",
         "version": "1.0.0",
-        "course": "B.Tech CSE Semester VII DevOps & Automation Lab (ENSP461)",
+        "edition": "Enterprise Cloud Edition",
         "features": [
             "JWT Authentication & RBAC",
             "Atomic Inventory Concurrency & Negative Stock Lock",

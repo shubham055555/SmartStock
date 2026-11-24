@@ -161,7 +161,7 @@ export const AIDevOpsCenter: React.FC = () => {
           {/* Sample Preset Buttons */}
           <div>
             <label className="block text-xs font-semibold text-slate-500 mb-2">
-              Preset Incident Traces for Academic Evaluation:
+              Preset Incident Traces for Diagnostics:
             </label>
             <div className="flex flex-wrap gap-2">
               {samples.map((s) => (
@@ -281,7 +281,7 @@ export const AIDevOpsCenter: React.FC = () => {
 
           <div className="pt-4 border-t border-slate-100 text-[11px] text-slate-400 flex justify-between items-center mt-6">
             <span>Confidentiality: Secrets and tokens auto-redacted</span>
-            <span className="font-mono">SmartStock Lab Capstone</span>
+            <span className="font-mono">SmartStock Cloud System</span>
           </div>
         </div>
       </div>

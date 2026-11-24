@@ -5,7 +5,7 @@
 [![ArgoCD](https://img.shields.io/badge/GitOps-ArgoCD%20Ready-f46800.svg)](argocd/)
 [![Tests](https://img.shields.io/badge/Tests-17%20Passed%20%7C%2079%25%20Cov-brightgreen.svg)](backend/tests/)
 [![Security](https://img.shields.io/badge/Security-SonarQube%20%7C%20OWASP-green.svg)](sonar-project.properties)
-[![Course](https://img.shields.io/badge/Course-B.Tech%20CSE%20Lab%20ENSP461-purple.svg)](docs/PROJECT_REPORT_OUTLINE.md)
+[![Release](https://img.shields.io/badge/Release-v1.0.0%20Enterprise-purple.svg)](https://github.com/shubham055555/SmartStock)
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-success?style=for-the-badge&logo=github)](https://shubham055555.github.io/SmartStock/)
 
 > 🌐 **Live Interactive Application**: **[https://shubham055555.github.io/SmartStock/](https://shubham055555.github.io/SmartStock/)**  
@@ -15,9 +15,9 @@
 
 ## 📌 Executive Summary
 
-**SmartStock** is a production-grade, distributed inventory management platform and cloud-native DevOps showcase designed for the **B.Tech CSE Semester VII DevOps & Automation Lab capstone (ENSP461)**. 
+**SmartStock** is a production-grade, distributed inventory management platform and cloud-native DevOps automation system. 
 
-Evaluated out of **100 Marks** for a **team of 2 students**, SmartStock demonstrates both a fully functioning transactional business system and an enterprise DevOps lifecycle:
+Engineered for high availability, transactional consistency, and continuous cloud delivery, SmartStock demonstrates both a fully functioning transactional business system and an enterprise DevOps lifecycle:
 - **Application Engine**: Python Flask modular architecture, PostgreSQL relational schema, JWT authentication, backend-enforced RBAC, atomic concurrency control, and negative inventory prevention.
 - **Modern User Experience**: React 18, Vite, TypeScript, and Tailwind CSS SaaS dashboard with Recharts visualizations, CSV reports, low-stock alerts, and 1-click evaluation credentials.
 - **DevOps Lifecycle**: Multi-stage Docker containers, Declarative Jenkins CI/CD, Kubernetes orchestration with HPA, zero-downtime Blue-Green deployments, ArgoCD GitOps, Terraform IaC, Ansible automation, Prometheus/Grafana monitoring, and an AI-powered root cause log analysis engine.
@@ -207,7 +207,7 @@ smartstock/
 
 ---
 
-## 👥 Capstone Team Task Division (ENSP461)
+## 👥 Engineering Team & Component Ownership
 
 - **Student 1 (Backend & Cloud Infrastructure)**: Flask REST architecture, PostgreSQL relational schema, concurrency control, Kubernetes manifests, Blue-Green deployment, Terraform, and Ansible.
 - **Student 2 (Frontend, CI/CD & Observability)**: React TypeScript SaaS UI, Tailwind design system, Jenkinsfile pipeline, ArgoCD GitOps, Prometheus/Grafana monitoring, and Bonus AI Log Analyzer.
