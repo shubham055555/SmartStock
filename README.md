@@ -6,6 +6,10 @@
 [![Tests](https://img.shields.io/badge/Tests-17%20Passed%20%7C%2079%25%20Cov-brightgreen.svg)](backend/tests/)
 [![Security](https://img.shields.io/badge/Security-SonarQube%20%7C%20OWASP-green.svg)](sonar-project.properties)
 [![Course](https://img.shields.io/badge/Course-B.Tech%20CSE%20Lab%20ENSP461-purple.svg)](docs/PROJECT_REPORT_OUTLINE.md)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-success?style=for-the-badge&logo=github)](https://shubham055555.github.io/SmartStock/)
+
+> 🌐 **Live Interactive Application**: **[https://shubham055555.github.io/SmartStock/](https://shubham055555.github.io/SmartStock/)**  
+> Explore the live dashboard, product inventory, atomic stock movements, and the AI DevOps diagnostic center directly in your browser. Use the **1-Click Demo Fill** buttons on the login screen to authenticate instantly!
 
 ---
 
