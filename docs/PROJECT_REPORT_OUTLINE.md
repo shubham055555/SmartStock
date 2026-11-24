@@ -1,6 +1,4 @@
 # SmartStock Capstone Project Report Outline
-**Academic Course**: B.Tech CSE Semester VII DevOps & Automation Lab (ENSP461)  
-**Evaluation Standard**: 100 Marks | Team Size: 2  
 **Project Title**: SmartStock — Smart Inventory Management and DevOps Automation Platform  
 
 ---
