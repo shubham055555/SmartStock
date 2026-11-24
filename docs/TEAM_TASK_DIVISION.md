@@ -1,12 +1,10 @@
 # SmartStock — Team Task Division & Contributions Breakdown
-**Academic Course**: B.Tech CSE Semester VII DevOps & Automation Lab (ENSP461)  
-**Evaluation**: 100 Marks | Total Team Members: 2 Students  
 
 ---
 
-## Student 1: Backend Architecture, Database Concurrency & Cloud Infrastructure
+##  1: Backend Architecture, Database Concurrency & Cloud Infrastructure
 
-**Assigned Lead**: Student 1  
+**Assigned Lead**:  1  
 **Primary Focus Areas**: RESTful Microservices, Relational Schema, Database Concurrency Control, Kubernetes Orchestration & Infrastructure as Code (Terraform/Ansible).
 
 ### Key Deliverables & Responsibilities:
@@ -30,9 +28,9 @@
 
 ---
 
-## Student 2: Frontend Engineering, CI/CD Automation & Observability Stack
+##  2: Frontend Engineering, CI/CD Automation & Observability Stack
 
-**Assigned Lead**: Student 2  
+**Assigned Lead**:  2  
 **Primary Focus Areas**: React SPA User Interface, Tailwind CSS Design System, Jenkins CI/CD Automation, GitOps (ArgoCD), Observability (Prometheus/Grafana) & Bonus AI Log Diagnostics.
 
 ### Key Deliverables & Responsibilities:
