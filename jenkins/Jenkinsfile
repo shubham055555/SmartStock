@@ -61,7 +61,7 @@ pipeline {
                     sh '''
                         npm ci
                         echo "Running Vitest unit tests..."
-                        npm run test
+                        npm run test:coverage
                         echo "Compiling production bundle..."
                         npm run build
                     '''
@@ -71,10 +71,16 @@ pipeline {
 
         stage('SonarQube Static Analysis') {
             steps {
-                echo "🔍 Running SonarQube Code Quality & Security Scan..."
-                // Runs SonarScanner if configured in Jenkins Tools
                 script {
-                    sh 'echo "SonarScanner analysis completed against quality gate."'
+                    def scannerHome = tool 'SonarScanner'
+
+                    withSonarQubeEnv('SonarQube') {
+                        withEnv(["PATH+SONAR=${scannerHome}/bin"]) {
+                            sh '''
+                                sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.qualitygate.timeout=300
+                            '''
+                        }
+                    }
                 }
             }
         }
